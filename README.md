@@ -11,4 +11,3 @@ In theme files located:
 - .custom_all.cfg - file in homedir for some configure properties for all .Xresources
 
 ## TODO:
-Don't forget add all my dotfiles.
