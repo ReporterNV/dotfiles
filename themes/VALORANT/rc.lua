@@ -1,6 +1,7 @@
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
---pcall(require, "luarocks.loader")
+pcall(require, "luarocks.loader")
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -16,20 +17,9 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
-
---Custom require
-local cal = wibox.widget.calendar.month(os.date('*t'))
-local volumebar_widget = require("widgets.volumebar-widget.volumebar")
+--Custom
 local volume_widget = require("widgets.volume-widget.volume")
 
-
-
---local translate = require("awesome-wm-widgets.translate-widget.translate");
---local need = gears.filesystem.get_configuration_dir ()  
---local cpu_widget = require("widgets.cpu-widget.cpu-widget");
---local ram_widget = require("widgets.ram-widget.ram-widget");
---local vol_widget = require("widgets.volume-widget.volume");
---local todo_widget = require("awesome-wm-widgets.todo-widget.todo-widget");
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -60,14 +50,13 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir () .. "themes/theme/theme.lua")
 
-
 -- This is used later as the default terminal and editor to run.
 terminal = "termite"
 editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. [[ -e "]] .. editor 
-filemanager = "thunar"
-texteditor = "mousepad"
+editor_cmd = terminal .. " -e " .. [["]].. editor
+filemanager = "pcmanfm"
 browser = "firefox"
+texteditor = "mousepad"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -81,30 +70,32 @@ awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
-   --  awful.layout.suit.tile.bottom,
-   --  awful.layout.suit.tile.top,
-   --  awful.layout.suit.fair,
-     awful.layout.suit.fair.horizontal,
-   --  awful.layout.suit.spiral,
-   --  awful.layout.suit.spiral.dwindle,
-   --  awful.layout.suit.max,
-   --  awful.layout.suit.max.fullscreen,
-   --  awful.layout.suit.magnifier,
-   --  awful.layout.suit.corner.nw,
-   --  awful.layout.suit.corner.ne,
-   --  awful.layout.suit.corner.sw,
-   --  awful.layout.suit.corner.se,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
 }
 -- }}}
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
-
-   { "Edit config" , editor_cmd .. " " .. awesome.conffile .. "\"" },
+   { "Edit config" , editor_cmd .. " " .. awesome.conffile ..  [["]]},
    { "Edit theme"  , editor_cmd .. " " .. gears.filesystem.get_configuration_dir () .. "themes/theme/theme.lua" .. [["]] },
    { "Edit autorun", editor_cmd .. " " .. gears.filesystem.get_configuration_dir () .. "autorun.sh" .. [["]] },
-   --{ "restart", awesome.restart },
+   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+   { "manual", terminal .. " -e man awesome" },
+   { "restart", awesome.restart },
+   { "quit", function() awesome.quit() end },
 }
 
 mymainmenu = awful.menu({ items = { 
@@ -131,13 +122,8 @@ mymainmenu = awful.menu({ items = {
               })
 
 
---mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
---Custom widget
-praisewidget = wibox.widget.textbox()
-praisewidget["text"] = type(wibox.widget.textbox()) 
-praisewidget["visible"] = false
---praisewidget.text = type(wibox.widget.textbox()) 
-
+--mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+--                                     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -149,6 +135,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock(" | %H:%M | %d-%m-%y  ")
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -197,11 +184,7 @@ local function set_wallpaper(s)
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
-        --gears.wallpaper.maximized(wallpaper, s, true)
-        gears.wallpaper.set("#2f2f2f")
-
-
-
+        gears.wallpaper.maximized(wallpaper, s, true)
     end
 end
 
@@ -213,8 +196,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ","Ⅷ","Ⅸ","Ⅹ" }, s, awful.layout.layouts[1])
-    --awful.tag({ "α", "β", "γ", "δ", "ε", "ζ"}, s, awful.layout.layouts[1])
+    awful.tag({ "V", "A", "L", "O", "R", "A","N","T"}, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -233,12 +215,12 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = taglist_buttons
     }
 
+    -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons
     }
-
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -249,24 +231,17 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
-	    praisewidget,
             s.mytaglist,
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-	    wibox.widget.textbox(" | "),
-            wibox.widget.systray(),
             mykeyboardlayout,
+            wibox.widget.systray(),
 	    wibox.widget.textbox(" | "),
-	    ----cal(),b
 	    volume_widget({display_notification = true, notification_position = "top_middle"}),
---	    wibox.widget.textbox("   CPU: "),cpu_widget({ width = 30, step_width = 0.9, step_spacing = 0.1, color = '#434c5e'}),
-	   -- vol_widget(),
---	    wibox.widget.textbox("   RAM: "), ram_widget(),
-	    --wibox.widget.textbox("   RAM: "), todo_widget(),
-	  mytextclock,
+            mytextclock,
             s.mylayoutbox,
         },
     }
@@ -283,6 +258,31 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+
+--Custom hotkeys
+
+	--Scrot
+	awful.key({"Shift"            }, "Print", function () awful.spawn.with_shell("scrot -s -q 100 -e 'mv $f ~/*/scrot/'")   end,
+              {description = "capture a screenshot of selection", group = "screenshot"}),
+	awful.key({                   }, "Print", function () awful.spawn.with_shell("scrot -q 100 -e 'mv $f ~/*/scrot/'")   end,
+              {description = "capture a screenshot", group = "screenshot"}),
+	awful.key({ modkey,           }, "p", function () awful.spawn("rofi -show drun -modi drun") end,
+              {description = "launch rofi", group = "launcher"}),
+	awful.key({ modkey,           }, "e", function () awful.spawn("pcmanfm")            end,
+              {description = "launch filemanager", group = "launcher"}),
+	awful.key({ modkey,           }, "g", function () awful.spawn("betterlockscreen -l")            end,
+              {description = "launch lockscreen", group = "launcher"}),
+	--Volume
+	awful.key({"Shift"            }, "Next", function () awful.spawn("amixer -D pulse sset Master 1%-") end, 
+              {description = "Increase volume", group = "audio"}),
+	awful.key({"Shift"           }, "Prior", function () awful.spawn("amixer -D pulse sset Master 1%+") end, 
+              {description = "Reduce volume", group = "audio"}),
+	awful.key({"Shift"            }, "Home", function () awful.spawn("amixer -D pulse set Master +1 toggle") end, 
+              {description = "Mute/Unmute", group = "audio"}),
+
+
+--END_Custom
+
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -352,31 +352,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
---Custom hotkeys
---Scrot
-	awful.key({"Shift"            }, "Print", function () awful.spawn.with_shell("scrot -s -q 100 -e 'mv $f ~/*/scrot/'")   end,
-              {description = "capture a screenshot of selection", group = "screenshot"}),
-	awful.key({                   }, "Print", function () awful.spawn.with_shell("scrot -q 100 -e 'mv $f ~/*/scrot/'")   end,
-              {description = "capture a screenshot", group = "screenshot"}),
-	awful.key({ modkey,  	      }, "p", function () awful.spawn("rofi -show drun -modi drun") end,
-              {description = "launch rofi", group = "launcher"}),
-	awful.key({ modkey,           }, "e", function () awful.spawn("pcmanfm")            end,
-              {description = "launch filemanager", group = "launcher"}),
-	awful.key({ modkey,           }, "g", function () awful.spawn("betterlockscreen -l")            end,
-              {description = "launch filemanager", group = "launcher"}),
---Volume
-    awful.key({"Shift"            }, "Next", function () awful.spawn("amixer -D pulse sset Master 1%-") end, 
-              {description = "Increase volume", group = "audio"}),
-     awful.key({"Shift"           }, "Prior", function () awful.spawn("amixer -D pulse sset Master 1%+") end, 
-              {description = "Reduce volume", group = "audio"}),
-    awful.key({"Shift"            }, "Home", function () awful.spawn("amixer -D pulse set Master +1 toggle") end, 
-              {description = "Mute/Unmute", group = "audio"}),
-
-	--awful.key({ modkey            }, "c", function() translate.show_translate_prompt() end, 
-   	  --    { description = "run translate prompt", group = "launcher" }),
-
-
-
     awful.key({ modkey, "Control" }, "n",
               function ()
                   local c = awful.client.restore()
@@ -391,11 +366,21 @@ globalkeys = gears.table.join(
 
     -- Prompt
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"})
+              {description = "run prompt", group = "launcher"}),
 
-  
-    -- Menubar -- use rofi
-
+    awful.key({ modkey, "Shift" }, "x",
+              function ()
+                  awful.prompt.run {
+                    prompt       = "Run Lua code: ",
+                    textbox      = awful.screen.focused().mypromptbox.widget,
+                    exe_callback = awful.util.eval,
+                    history_path = awful.util.get_cache_dir() .. "/history_eval"
+                  }
+              end,
+              {description = "lua execute prompt", group = "awesome"}),
+    -- Menubar
+    awful.key({ modkey, "Shift" }, "p", function() menubar.show() end,
+              {description = "show the menubar", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
@@ -405,7 +390,7 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey,           }, "x",      function (c) c:kill()                         end,
+    awful.key({ modkey, 	  }, "x",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
@@ -441,6 +426,7 @@ clientkeys = gears.table.join(
         end ,
         {description = "(un)maximize horizontally", group = "client"})
 )
+
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
@@ -489,19 +475,6 @@ for i = 1, 9 do
                       end
                   end,
                   {description = "toggle focused client on tag #" .. i, group = "tag"})
-	--Custom
-        -- Move client to tag by arrow.
-        --[[awful.key({ modkey, "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = client.focus.screen.tags[i]
-                          if tag then
-                              client.focus:move_to_tag(tag)
-                          end
-                     end
-                  end,
-                  {description = "move focused client to tag #"..i, group = "tag"}),
- ]]--
     )
 end
 
@@ -643,7 +616,4 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
-awful.spawn.with_shell("~/.config/awesome/autorun.sh")
-
 -- }}}

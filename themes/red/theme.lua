@@ -13,22 +13,22 @@ local theme = {}
 
 theme.font          = "sans 8"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#1d3867"--"#1069e3""#535d6c"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+theme.bg_normal     = "#444444"--"#222222"
+theme.bg_focus      = "#d75f5f"
+theme.bg_urgent     = "#f4bf75"--"#ff0000"
+theme.bg_minimize   = "#222222"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
+theme.fg_normal     = "#DDDDDD"
+theme.fg_focus      = "#ded4d4"
+theme.fg_urgent     = "#DDDDDD"--"#f4bf75"
 theme.fg_minimize   = "#ffffff"
 
-theme.useless_gap   = dpi(2)
-theme.border_width  = dpi(3)
-theme.border_normal = "#000000"
-theme.border_focus  = "#1069e3"--"#535d6c"
-theme.border_marked = "#91231c"
+theme.useless_gap   = dpi(0)
+theme.border_width  = dpi(2)
+theme.border_normal = "#585858"
+theme.border_focus  = "#d75f5f"
+theme.border_marked = "#f4bf75"
 
 -- There are other variable sets
 -- overriding the default one when
@@ -71,31 +71,6 @@ theme.menu_width  = dpi(120)
 --theme.bg_widget = "#cc0000"
 
 -- Define the image to load
-theme.titlebar_close_button_normal = theme_path.."titlebar/close_normal.png"
-theme.titlebar_close_button_focus  = theme_path.."titlebar/close_focus.png"
-
-theme.titlebar_minimize_button_normal = theme_path.."titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus  = theme_path.."titlebar/minimize_focus.png"
-
-theme.titlebar_ontop_button_normal_inactive = theme_path.."titlebar/ontop_normal_inactive.png"
-theme.titlebar_ontop_button_focus_inactive  = theme_path.."titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_active = theme_path.."titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_active  = theme_path.."titlebar/ontop_focus_active.png"
-
-theme.titlebar_sticky_button_normal_inactive = theme_path.."titlebar/sticky_normal_inactive.png"
-theme.titlebar_sticky_button_focus_inactive  = theme_path.."titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_active = theme_path.."titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_active  = theme_path.."titlebar/sticky_focus_active.png"
-
-theme.titlebar_floating_button_normal_inactive = theme_path.."titlebar/floating_normal_inactive.png"
-theme.titlebar_floating_button_focus_inactive  = theme_path.."titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_active = theme_path.."titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_active  = theme_path.."titlebar/floating_focus_active.png"
-
-theme.titlebar_maximized_button_normal_inactive = theme_path.."titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive  = theme_path.."titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = theme_path.."titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active  = theme_path.."titlebar/maximized_focus_active.png"
 
 theme.wallpaper = theme_path.."background.png"
 
