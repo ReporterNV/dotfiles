@@ -1,0 +1,78 @@
+URxvt.font: xft:Hack Nerd Font Mono:size=10
+!URxvt.termname: xterm-256color
+URxvt.iconFile: /usr/share/icons/Papirus/48x48/apps/urxvt.svg
+URxvt.geometry: 84x22
+URxvt.internalBorder: 15
+URxvt.letterSpace: 0
+URxvt.antialias: true
+URxvt.pointerBlank: true
+URxvt.saveLines:    7000
+URxvt.scrollBar:    false
+URxvt.cursorBlink:  true
+URxvt.urgentOnBell: true
+URxvt.scrollTtyOutput: true
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+
+
+!URxvt.depth: 32
+
+URxvt*transparent: true
+URxvt*shading: 50
+
+URxvt.iso14755:        false
+URxvt.iso14755_52:     false
+
+
+URxvt.keysym.C-Escape: perl:keyboard-select:activate
+URxvt.keysym.C-/: perl:keyboard-select:search
+
+URxvt.clipboard.autocopy: true
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
+
+URxvt*foreground: #FEF6D2
+
+URxvt*background: #040218
+
+URxvt*cursorColor: #FEF6D2
+
+*color0: #040218
+*.color0: #040218
+*color1: #685099
+*.color1: #685099
+*color2: #B65D9A
+*.color2: #B65D9A
+*color3: #9768A4
+*.color3: #9768A4
+*color4: #DFA7B6
+*.color4: #DFA7B6
+*color5: #D7AEB8
+*.color5: #D7AEB8
+*color6: #FCD3C5
+*.color6: #FCD3C5
+*color7: #FEF6D2
+*.color7: #FEF6D2
+*color8: #666666
+*.color8: #666666
+*color9: #685099
+*.color9: #685099
+*color10: #B65D9A
+*.color10: #B65D9A
+*color11: #9768A4
+*.color11: #9768A4
+*color12: #DFA7B6
+*.color12: #DFA7B6
+*color13: #D7AEB8
+*.color13: #D7AEB8
+*color14: #FCD3C5
+*.color14: #FCD3C5
+*color15: #FEF6D2
+*.color15: #FEF6D2
+*color66: #040218
+rofi.color-window: argb:FF040218, #040218, #B65D9A
+rofi.color-normal: argb:FF040218, #FEF6D2, #040218, #B65D9A, #040218
+rofi.color-active: argb:FF040218, #FEF6D2, #040218, #B65D9A, #040218
+rofi.color-urgent: argb:FF040218, #685099, #040218, #685099, #FEF6D2
+
