@@ -1,6 +1,5 @@
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
-
 pcall(require, "luarocks.loader")
 
 -- Standard awesome library
@@ -19,11 +18,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
---Custom local
-local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
-local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+--Custom
+local volume_widget   = require("widgets.volumearc-widget.volumearc");
+local calendar_widget = require("widgets.calendar-widget.calendar");
 --End Custom
-
 
 
 
@@ -54,15 +52,13 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. "main/theme.lua")
+beautiful.init(awful.util.get_configuration_dir() .. "themes/theme/theme.lua");
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nvim"
+terminal = "urxvt"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-browser = "firefox"
 filemanager = "pcmanfm"
-texteditor = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -75,11 +71,11 @@ modkey = "Mod4"
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
-    -- awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
     awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
@@ -98,29 +94,22 @@ myawesomemenu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "edit theme",editor_cmd .." ".. os.getenv("HOME") .. "/.config/awesome/themes/" .. "main/theme.lua"},
-   { "edit widgets",editor_cmd .." ".. os.getenv("HOME") .. "/.config/awesome/awesome-wm-widgets"},
+   { "edit theme ", editor_cmd .. " " .. awful.util.get_configuration_dir() .. "themes/theme/theme.lua"},
+   { "edit widget", editor_cmd .. " " .. awful.util.get_configuration_dir() .. "widgets/"},
    { "restart", awesome.restart },
    { "quit", function() awesome.quit() end },
 }
 
-mymainmenu = awful.menu({ items = { { "awesome",       myawesomemenu},
-                                    { "Firefox",       browser      },
-                                    { "TextEditor",    texteditor   },
-                                    { "Office",    {
-					{"Writer", "libreoffice --writer" },
-					{"Calc",   "libreoffice --calc"   },
-					{"Impress","libreoffice --impress"},
-				    }},
-                                    { "FileManager",   filemanager  },
-                                    { "Shutdown", { 
-					{"Shutdown", "shutdown"       },
-					{"Now",      "shutdown now"   },
-					{"Reboot",   "shutdown now -r"},
-					{"Cancel",   "shutdown -c"    },
-			    		}},
-                                 }
-                })
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "Terminal"   , terminal   },
+                                    { "Browser"    , "firefox"    },
+                                    { "Filemanager", filemanager},
+                                    { "Shutdown", 
+						{"Now", "shutdown -now"},
+						{"Cancel", "shutdown -c"},
+				},
+                                  }
+                        })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -134,18 +123,20 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock("%H:%M")
+
+mytextclock = wibox.widget.textclock("%H:%m")
 
 local cw = calendar_widget({
-	placement = 'bottom_right',
-	theme = 'nord',
-	--radius = 8,
-});
+	placement = 'top_right',
+	theme     = 'dark',
+})
 
-mytextclock:connect_signal("button::press",
-	function(_, _, _, button)
-		if button == 1 then cw.toggle() end
-	end)
+mytextclock:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
+
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -206,19 +197,18 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "α" , "β", "γ", "δ", "ε", "ζ" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
-    --[[s.mylayoutbox:buttons(gears.table.join())
-                    	awful.button({ }, 1, function () awful.layout.inc( 1) end),
-                    	awful.button({ }, 3, function () awful.layout.inc(-1) end),
-                        awful.button({ }, 4, function () awful.layout.inc( 1) end),
-                        awful.button({ }, 5, function () awful.layout.inc(-1) end)))
-			 --]]
+    s.mylayoutbox:buttons(gears.table.join(
+                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
+                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
+                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
+                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
@@ -234,8 +224,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
-    --s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -250,11 +239,14 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+	    volume_widget({
+		main_color = '#000000',
+		mute_color = '#ffffff',
+		thickness = 5,
+		height = 25,
+	    }),
             wibox.widget.systray(),
-	    volume_widget{
-            widget_type = 'arc'
-        },
-	    mytextclock,
+            mytextclock,
             s.mylayoutbox,
         },
     }
@@ -263,26 +255,14 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end)
-    --awful.button({ }, 4, awful.tag.viewnext),
-    --awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end),
+    awful.button({ }, 4, awful.tag.viewnext),
+    awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-    
---CustomKey
-
-
-awful.key({ }, 'XF86AudioRaiseVolume', function() volume_widget:inc() end),
-awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
-awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
-
-    awful.key({ " ", }, "#107", function () awful.util.spawn_with_shell("scrot ~/Images/screenshot/'%Y-%m-%d_%T_$wx$h.png'  -q 100") end),
---EndCustom
-
-
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -368,7 +348,7 @@ awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
 
-    awful.key({ modkey, "Shift" }, "x",
+    awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
                     prompt       = "Run Lua code: ",
@@ -390,7 +370,7 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, 	  }, "x",      function (c) c:kill()                         end,
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
