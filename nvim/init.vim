@@ -1,3 +1,4 @@
+":set e ++enc=cp1251"rus-cod
 set number 
 set relativenumber
 "filetype plugin indent on
@@ -8,6 +9,8 @@ set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNO
 
 set list
 set listchars=trail:·,precedes:«,extends:»,eol:↲,tab:▸\ "Отображние табов и переноса строки
+
+colorscheme solas
 
 
 "=====================================
@@ -23,7 +26,6 @@ call plug#end()
 nmap <C-n> :Vex<CR>
 
 
-colorscheme solas
 
 "=====================================
 "FZF

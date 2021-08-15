@@ -2,6 +2,9 @@
 #THIS DO NOT CHECK DIR EXIST
 #DO NOT USE THIS!!!
 #TODO: USE VAR FOR DIR
+#TODO: ADD BACKUP OLD CONFIG PACK AND UNPACK
+#TODO: ADD PLUG INSTALL FOR NEOVIM
+
 ln -s ./nvim ~/.config/ -r
 ln -s ./zathura ~/.config/ -r
 
