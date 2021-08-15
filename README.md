@@ -2,7 +2,7 @@
 # Dotfiles
 
 - Distribution    -- ARCH
-- alacrityy	  -- terminal
+- alacrity	  -- terminal
 - wallpaper 	  -- feh-sh-animate
 - scrot 	  -- screenshots
 - firefox 	  -- browser
