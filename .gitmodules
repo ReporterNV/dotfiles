@@ -1,0 +1,3 @@
+[submodule "awesome/awesome-wm-widgets"]
+	path = awesome/awesome-wm-widgets
+	url = git@github.com:ReporterNV/awesome-wm-widgets.git
