@@ -19,10 +19,13 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
---Custom local
-local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+-- Custom local -- 
+local volume_widget   = require("awesome-wm-widgets.volume-widget.volume")
+local todo_widget = require("awesome-wm-widgets.todo-widget.todo")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
---End Custom
+local mpris_widget = require("awesome-wm-widgets.mpris-widget")
+
+-- End Custom --
 
 
 
@@ -50,19 +53,26 @@ do
         in_error = false
     end)
 end
--- }}}
+-- }}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. "main/theme.lua")
 
--- This is used later as the default terminal and editor to run.
+-- Vars
+
 terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 browser = "firefox"
 filemanager = "pcmanfm"
 texteditor = terminal .. " -e " .. editor
+
+-- SCROT
+scrot_key = "#107"
+scrot_dir = "~/Images/screenshots/"
+scrot_fmt = "'%Y-%m-%d_%T_$wx$h.png'"
+
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -194,7 +204,7 @@ local function set_wallpaper(s)
         --if type(wallpaper) == "function" then
          --   wallpaper = wallpaper(s)
         --end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        --gears.wallpaper.maximized(wallpaper, s, true)
     --end
 end
 
@@ -252,9 +262,11 @@ awful.screen.connect_for_each_screen(function(s)
             mykeyboardlayout,
             wibox.widget.systray(),
 	    volume_widget{
-            widget_type = 'arc'
-        },
+			widget_type = 'arc'
+	},
+	    todo_widget(),
 	    mytextclock,
+	    --mpris_widget(),
             s.mylayoutbox,
         },
     }
@@ -270,7 +282,7 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = gears.table.join(
+globalkeys =gears.table.join(
     
 --CustomKey
 
@@ -279,7 +291,8 @@ awful.key({ }, 'XF86AudioRaiseVolume', function() volume_widget:inc() end),
 awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
 awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
 
-    awful.key({ " ", }, "#107", function () awful.util.spawn_with_shell("scrot ~/Images/screenshot/'%Y-%m-%d_%T_$wx$h.png'  -q 100") end),
+
+awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " .. scrot_dir .. '%Y-%m-%d_%T_$wx$h.png' .. " -q 100") end),
 --EndCustom
 
 
