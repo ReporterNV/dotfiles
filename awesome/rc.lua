@@ -14,6 +14,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local lain = require("lain")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -23,7 +24,6 @@ require("awful.hotkeys_popup.keys")
 local volume_widget   = require("awesome-wm-widgets.volume-widget.volume")
 local todo_widget = require("awesome-wm-widgets.todo-widget.todo")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
-local mpris_widget = require("awesome-wm-widgets.mpris-widget")
 
 -- End Custom --
 
@@ -94,11 +94,13 @@ awful.layout.layouts = {
     -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
     -- awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
+    -- awful.layout.suit.magnifier,
     -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
+    lain.layout.termfair,
+    lain.layout.centerwork
 }
 -- }}}
 
@@ -132,9 +134,6 @@ mymainmenu = awful.menu({ items = { { "awesome",       myawesomemenu},
                                  }
                 })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
-
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
@@ -147,9 +146,9 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 mytextclock = wibox.widget.textclock("%H:%M")
 
 local cw = calendar_widget({
-	placement = 'bottom_right',
+	placement = 'top_right',
 	theme = 'nord',
-	--radius = 8,
+	radius = 0,
 });
 
 mytextclock:connect_signal("button::press",
@@ -216,7 +215,7 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
     gears.wallpaper.set("#222222")
     -- Each screen has its own tag table.
-    awful.tag({ "α" , "β", "γ", "δ", "ε", "ζ" }, s, awful.layout.layouts[1])
+      awful.tag({ "一" , "二", "三", "四", "五", "六" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -236,15 +235,16 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = taglist_buttons
     }
 
-    -- Create a tasklist widget
+    -- Create a tasklist widget --
+    --[[
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons
     }
-
+--]]
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s })
     --s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
@@ -252,7 +252,6 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
@@ -264,12 +263,12 @@ awful.screen.connect_for_each_screen(function(s)
 	    volume_widget{
 			widget_type = 'arc'
 	},
-	    todo_widget(),
-	    mytextclock,
-	    --mpris_widget(),
-            s.mylayoutbox,
-        },
-    }
+
+              todo_widget(),
+              mytextclock,
+              s.mylayoutbox,
+          },
+      }
 end)
 -- }}}
 
@@ -292,6 +291,7 @@ awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
 awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
 
 
+    awful.key({ modkey,  "Control" }, "l", function () awful.util.spawn_with_shell("betterlockscreen -l") end) ,
 awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " .. scrot_dir .. '%Y-%m-%d_%T_$wx$h.png' .. " -q 100") end),
 --EndCustom
 
@@ -307,13 +307,13 @@ awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " 
 
     awful.key({ modkey,           }, "j",
         function ()
-            awful.client.focus.byidx( 1)
+            awful.client.focus.byidx(-1)
         end,
         {description = "focus next by index", group = "client"}
     ),
     awful.key({ modkey,           }, "k",
         function ()
-            awful.client.focus.byidx(-1)
+            awful.client.focus.byidx( 1)
         end,
         {description = "focus previous by index", group = "client"}
     ),
@@ -525,6 +525,7 @@ awful.rules.rules = {
     },
 
     -- Floating clients.
+    --[[
     { rule_any = {
         instance = {
           "DTA",  -- Firefox addon DownThemAll.
@@ -554,10 +555,10 @@ awful.rules.rules = {
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
       }, properties = { floating = true }},
-
+--]]
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = true} --titlebar Enable
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -628,4 +629,6 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+--awful.spawn(terminal.." -e sh ~/init_stand1.sh")
+awful.spawn(terminal.."xrandr --output DP1 --left-of HDMI3")
 -- }}}
