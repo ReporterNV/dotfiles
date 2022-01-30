@@ -1,5 +1,5 @@
 #!/bin/sh
-
+#ffmpeg -i ./input.webm gif-%d.jpg -??? -is this work?
 # More meaningful argument names
 GIF_PATH=$1
 SPEED=$2
