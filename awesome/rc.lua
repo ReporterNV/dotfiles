@@ -62,6 +62,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. "main/theme.lu
 -- Vars
 
 terminal = "alacritty"
+terminal_cmd = "alacritty -e"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 browser = "firefox"
@@ -236,13 +237,77 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create a tasklist widget --
-    --[[
+
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
+        buttons = tasklist_buttons,
+        style    = {
+         shape_border_width = 1,
+         shape_border_color = '#777777',
+         shape  = gears.shape.rounded_bar,
+        },
+        layout   = {
+         spacing = 10,
+         spacing_widget = {
+            {
+                forced_width = 5,
+                shape        = gears.shape.circle,
+                widget       = wibox.widget.separator
+            },
+            valign = 'center',
+            halign = 'center',
+            widget = wibox.container.place,
+        },
+        layout  = wibox.layout.flex.horizontal},
+
     }
---]]
+
+    s.mytasklist = awful.widget.tasklist {
+    screen   = s,
+    filter   = awful.widget.tasklist.filter.currenttags,
+    buttons  = tasklist_buttons,
+    layout   = {
+        spacing_widget = {
+            {
+                forced_width  = 5,
+                forced_height = 24,
+                thickness     = 1,
+                color         = '#777777',
+                widget        = wibox.widget.separator
+            },
+            valign = 'center',
+            halign = 'center',
+            widget = wibox.container.place,
+        },
+        spacing = 1,
+        layout  = wibox.layout.fixed.horizontal
+    },
+    -- Notice that there is *NO* wibox.wibox prefix, it is a template,
+    -- not a widget instance.
+    widget_template = {
+        {
+            wibox.widget.base.make_widget(),
+            forced_height = 2,
+            id            = 'background_role',
+            widget        = wibox.container.background,
+        },
+        {
+            {
+                id     = 'clienticon',
+                widget = awful.widget.clienticon,
+            },
+            margins = 1,
+            widget  = wibox.container.margin
+        },
+        nil,
+        create_callback = function(self, c, index, objects) --luacheck: no unused args
+            self:get_children_by_id('clienticon')[1].client = c
+        end,
+        layout = wibox.layout.align.vertical,
+    },
+}
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
     --s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -558,7 +623,7 @@ awful.rules.rules = {
 --]]
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true} --titlebar Enable
+      }, properties = { titlebars_enabled = false} --titlebar Enable
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -630,5 +695,5 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 --awful.spawn(terminal.." -e sh ~/init_stand1.sh")
-awful.spawn(terminal.."xrandr --output DP1 --left-of HDMI3")
+awful.spawn(terminal_cmd.."xrandr --output DP1 --left-of HDMI3")
 -- }}}
