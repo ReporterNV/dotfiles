@@ -22,12 +22,9 @@ require("awful.hotkeys_popup.keys")
 
 -- Custom local -- 
 local volume_widget   = require("awesome-wm-widgets.volume-widget.volume")
-local todo_widget = require("awesome-wm-widgets.todo-widget.todo")
+local net_widget      = require("awesome-wm-widgets.net-speed-widget.net-speed")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
-
 -- End Custom --
-
-
 
 
 -- {{{ Error handling
@@ -92,8 +89,8 @@ awful.layout.layouts = {
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max,
-    -- awful.layout.suit.max.fullscreen,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier,
     -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
@@ -215,7 +212,7 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
     gears.wallpaper.set("#222222")
     -- Each screen has its own tag table.
-      awful.tag({ "一" , "二", "三", "四", "五", "六" }, s, awful.layout.layouts[1])
+      awful.tag({ "Ⅰ" , "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -236,13 +233,12 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create a tasklist widget --
-    --[[
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons
     }
---]]
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
     --s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -262,9 +258,9 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.systray(),
 	    volume_widget{
 			widget_type = 'arc'
-	},
+		},
+	    net_widget(),
 
-              todo_widget(),
               mytextclock,
               s.mylayoutbox,
           },
@@ -284,15 +280,13 @@ root.buttons(gears.table.join(
 globalkeys =gears.table.join(
     
 --CustomKey
-
-
 awful.key({ }, 'XF86AudioRaiseVolume', function() volume_widget:inc() end),
 awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
 awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
 
+awful.key({ modkey,  "Control" }, "l", function () awful.util.spawn_with_shell("betterlockscreen -l") end) ,
+awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " .. scrot_dir .. '%Y-%m-%d_%T.png' .. " -q100") end),
 
-    awful.key({ modkey,  "Control" }, "l", function () awful.util.spawn_with_shell("betterlockscreen -l") end) ,
-awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " .. scrot_dir .. '%Y-%m-%d_%T_$wx$h.png' .. " -q 100") end),
 --EndCustom
 
 
@@ -524,46 +518,11 @@ awful.rules.rules = {
      }
     },
 
-    -- Floating clients.
-    --[[
-    { rule_any = {
-        instance = {
-          "DTA",  -- Firefox addon DownThemAll.
-          "copyq",  -- Includes session name in class.
-          "pinentry",
-        },
-        class = {
-          "Arandr",
-          "Blueman-manager",
-          "Gpick",
-          "Kruler",
-          "MessageWin",  -- kalarm.
-          "Sxiv",
-          "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-          "Wpa_gui",
-          "veromix",
-          "xtightvncviewer"},
-
-        -- Note that the name property shown in xprop might be set slightly after creation of the client
-        -- and the name shown there might not match defined rules here.
-        name = {
-          "Event Tester",  -- xev.
-        },
-        role = {
-          "AlarmWindow",  -- Thunderbird's calendar.
-          "ConfigManager",  -- Thunderbird's about:config.
-          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
-        }
-      }, properties = { floating = true }},
---]]
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true} --titlebar Enable
+      }, properties = { titlebars_enabled = false} --titlebar Enable
     },
 
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
@@ -629,6 +588,7 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
---awful.spawn(terminal.." -e sh ~/init_stand1.sh")
-awful.spawn(terminal.."xrandr --output DP1 --left-of HDMI3")
+
+-- Script after
+-- awful.spawn(terminal.."sleep 4 && sh ~/xrandr_settings")
 -- }}}
