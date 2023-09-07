@@ -18,14 +18,15 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 require("layouts")
-require("vars")
-require("menu")
+local vars = require("vars")
+menu_items = require("menu")
 --require("keys")
 
 -- Custom widget -- 
 local volume_widget   = require("awesome-wm-widgets.volume-widget.volume")
 local net_widget      = require("awesome-wm-widgets.net-speed-widget.net-speed")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+local todo_widget     = require("awesome-wm-widgets.todo-widget.todo")
 -- End Custom --
 
 if awesome.startup_errors then
@@ -57,9 +58,9 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. "main/theme.lu
 modkey = "Mod4"
 
 -- Menubar configuration
+mymainmenu = awful.menu({ items = menu_items});
 
-
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+menubar.utils.terminal = "alacritty" -- Set the terminal for applications that require it
 -- }}}
 
 -- Keyboard map indicator and switcher
@@ -119,24 +120,10 @@ local tasklist_buttons = gears.table.join(
                                               awful.client.focus.byidx(-1)
                                           end))
 
-local function set_wallpaper(s)
-    -- Wallpaper
-    --if beautiful.wallpaper then
-     --   local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        --if type(wallpaper) == "function" then
-         --   wallpaper = wallpaper(s)
-        --end
-        --gears.wallpaper.maximized(wallpaper, s, true)
-    --end
-end
-
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    --set_wallpaper(s)
     gears.wallpaper.set("#222222")
     -- Each screen has its own tag table.
       awful.tag({ "Ⅰ" , "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ" }, s, awful.layout.layouts[1])
@@ -168,7 +155,6 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
-    --s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -185,11 +171,11 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.systray(),
 	    volume_widget{
 			widget_type = 'arc'
-		},
+	    },
 	    net_widget(),
-
-              mytextclock,
-              s.mylayoutbox,
+	    todo_widget(),
+            mytextclock,
+            s.mylayoutbox,
           },
       }
 end)
@@ -206,9 +192,29 @@ root.buttons(gears.table.join(
 globalkeys =gears.table.join(
  
 --CustomKey
+
+
 awful.key({ }, 'XF86AudioRaiseVolume', function() volume_widget:inc() end),
 awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
+--awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
+--awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
 awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
+
+awful.key({ }, "XF86AudioRaiseVolume", function ()
+    awful.util.spawn_with_shell("amixer set Master 5%+")
+end),
+
+
+awful.key({ }, "XF86AudioLowerVolume", function ()
+    awful.util.spawn_with_shell("amixer set Master 5%-")
+end),
+
+
+awful.key({ }, "XF86AudioMute", function ()
+    awful.util.spawn_with_shell("amixer set Master toggle")
+end),
+
+
 
 awful.key({ modkey,  "Control" }, "l", function () awful.util.spawn_with_shell("betterlockscreen -l") end) ,
 awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " .. scrot_dir .. '%Y-%m-%d_%T.png' .. " -q100") end),
@@ -515,6 +521,6 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+awful.spawn.with_shell('TERM=alacritty')
 
--- Script after
 -- }}}
