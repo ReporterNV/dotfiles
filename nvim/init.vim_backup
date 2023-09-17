@@ -1,0 +1,12 @@
+set number
+set relativenumber
+"filetype plugin indent on
+set mouse=a "Mouse support for windows
+syntax enable
+syntax on
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+
+set list
+set listchars=trail:·,precedes:«,extends:»,eol:↲,tab:▸\ "Отображние табов и переноса строки
+
+

@@ -1,0 +1,29 @@
+" Plugins 
+call plug#begin()
+"Plug 'norcalli/nvim-colorizer.lua'
+Plug 'folke/neodev.nvim'
+call plug#end()
+
+
+
+"lua require 'colorizer'.setup()
+
+set number
+set relativenumber
+set clipboard+=unnamedplus
+nnoremap <C-S-C> "+y
+xnoremap <C-S-C> "+y
+
+nnoremap <C-S-V> "+p  " Normal
+noremap! <C-S-V> <C-r>+  " Insert and Command line
+inoremap <C-S-V> <C-r>+  " Insert
+
+"filetype plugin indent on
+set mouse=a "Mouse support for windows
+syntax enable
+syntax on
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+
+set list
+"Отображние табов и переноса строки
+set listchars=trail:·,precedes:«,extends:»,eol:↲,tab:▸\ 
