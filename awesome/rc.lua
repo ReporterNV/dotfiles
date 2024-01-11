@@ -23,11 +23,17 @@ menu_items = require("menu")
 --require("keys")
 
 -- Custom widget -- 
-local volume_widget   = require("awesome-wm-widgets.volume-widget.volume")
+--local volume_widget   = require("awesome-wm-widgets.volume-widget.volume")
+local pactl           = require("awesome-wm-widgets.pactl-widget.volume")
 local net_widget      = require("awesome-wm-widgets.net-speed-widget.net-speed")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local todo_widget     = require("awesome-wm-widgets.todo-widget.todo")
+
 -- End Custom --
+-- Custom Vars --
+local scrot_dir = os.getenv("HOME") .. "/Pictures/scrot/"
+modkey = "Mod4"
+-- End Custom Vars --
 
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
@@ -55,7 +61,6 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/" .. "main/theme.lua")
 
-modkey = "Mod4"
 
 -- Menubar configuration
 mymainmenu = awful.menu({ items = menu_items});
@@ -169,7 +174,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
-	    volume_widget{
+	    pactl{
 			widget_type = 'arc'
 	    },
 	    net_widget(),
@@ -189,36 +194,16 @@ root.buttons(gears.table.join(
 ))
 -- }}}
 
-globalkeys =gears.table.join(
+globalkeys = gears.table.join(
  
 --CustomKey
 
-
-awful.key({ }, 'XF86AudioRaiseVolume', function() volume_widget:inc() end),
-awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
---awful.key({ }, 'XF86AudioLowerVolume', function() volume_widget:dec() end),
---awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
-awful.key({ }, 'XF86AudioMute'       , function() volume_widget:toggle() end),
-
-awful.key({ }, "XF86AudioRaiseVolume", function ()
-    awful.util.spawn_with_shell("amixer set Master 5%+")
-end),
-
-
-awful.key({ }, "XF86AudioLowerVolume", function ()
-    awful.util.spawn_with_shell("amixer set Master 5%-")
-end),
-
-
-awful.key({ }, "XF86AudioMute", function ()
-    awful.util.spawn_with_shell("amixer set Master toggle")
-end),
-
-
+awful.key({ }, 'XF86AudioRaiseVolume', function() pactl:inc() end),
+awful.key({ }, 'XF86AudioLowerVolume', function() pactl:dec() end),
+awful.key({ }, 'XF86AudioMute'       , function() pactl:toggle() end),
 
 awful.key({ modkey,  "Control" }, "l", function () awful.util.spawn_with_shell("betterlockscreen -l") end) ,
 awful.key({ " ", }, scrot_key, function () awful.util.spawn_with_shell("scrot " .. scrot_dir .. '%Y-%m-%d_%T.png' .. " -q100") end),
-
 --EndCustom
 
 
