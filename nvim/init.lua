@@ -1,6 +1,6 @@
 require("main")
-require'lspconfig'.lua_ls.setup{}
-require'lspconfig'.ccls.setup{}
+--require'lspconfig'.lua_ls.setup{}
+--require'lspconfig'.ccls.setup{}
 
 vim.cmd([[
 set number
