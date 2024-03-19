@@ -65,9 +65,21 @@ require'lspconfig'.lua_ls.setup{
 }
 
 require'lspconfig'.clangd.setup{
-	capabilities = lsp_capabilities,
 	--on_attach = on_attach;
 }
+
+require'lspconfig'.csharp_ls.setup{
+	--on_attach = on_attach;
+}
+
+require'lspconfig'.omnisharp_mono.setup{
+	--on_attach = on_attach;
+}
+
+require'lspconfig'.omnisharp.setup{
+	--on_attach = on_attach;
+}
+
 --require'lspconfig'.ccls.setup{} -- not supported by mason ?
 
 

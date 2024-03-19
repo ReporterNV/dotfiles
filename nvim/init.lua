@@ -15,6 +15,7 @@ set list
 set listchars=trail:·,precedes:«,extends:»,eol:↲,tab:▸\ 
 set termguicolors
 set background=dark
+set noswapfile
 ]])
 
 
