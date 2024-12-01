@@ -1,0 +1,5 @@
+general.import = ["dracula.toml"]
+[keyboard]
+bindings = [
+   { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
+]
