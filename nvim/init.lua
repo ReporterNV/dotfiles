@@ -24,6 +24,9 @@ vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 --]]
 --
+
+vim.keymap.set('n', '<C-n>', ':tabnew<CR>', {noremap = true})
+
 vim.keymap.set('n', '<C-c>', '"+y', {noremap = true})
 vim.keymap.set('v', '<C-c>', '"+y', {noremap = true})
 
