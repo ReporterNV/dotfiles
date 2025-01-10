@@ -2,11 +2,11 @@ require("mason").setup()
 require("mason-lspconfig").setup({
 	ensure_installed = {"lua_ls",
 	"clangd",
+	"bashls",
 	--C#support
 	"csharp_ls",
 	"omnisharp_mono",
 	"omnisharp",
-	--
 }
 })
 
@@ -65,6 +65,10 @@ require'lspconfig'.lua_ls.setup{
 }
 
 require'lspconfig'.clangd.setup{
+	--on_attach = on_attach;
+}
+
+require'lspconfig'.bashls.setup{
 	--on_attach = on_attach;
 }
 

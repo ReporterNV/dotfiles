@@ -10,7 +10,7 @@ set mouse=a
 syntax enable
 syntax on
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
-colorscheme dracula
+colorscheme catppuccin
 set list
 set listchars=trail:·,precedes:«,extends:»,eol:↲,tab:▸\ 
 set termguicolors

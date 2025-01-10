@@ -1,6 +1,5 @@
 local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local fn = vim.fn local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     vim.cmd [[packadd packer.nvim]]
@@ -15,6 +14,7 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
+	use 'github/copilot.vim'
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.6',
@@ -24,6 +24,7 @@ return require('packer').startup(function(use)
 	-- Colorschemes
 	use 'dracula/vim'
 	use 'machakann/vim-colorscheme-imas'
+	use { "catppuccin/nvim", as = "catppuccin" }
 	use {'srcery-colors/srcery-vim', as = 'srcery'}
 
 	use 'norcalli/nvim-colorizer.lua'

@@ -13,7 +13,7 @@ local theme = {}
 
 theme.font          = "sans 8"
 
-theme.bg_normal     = "#222222"
+theme.bg_normal     = "#22222266"
 theme.bg_focus      = "#4084d6"
 theme.bg_urgent     = "#f36d23"
 theme.bg_minimize   = "#444444"
@@ -98,6 +98,7 @@ theme.titlebar_maximized_button_normal_active = themes_path.."default/titlebar/m
 theme.titlebar_maximized_button_focus_active  = themes_path.."default/titlebar/maximized_focus_active.png"
 
 --theme.wallpaper = themes_path.."main/wall.jpg"
+theme.wallpaper = "/tmp/1.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = themes_path.."default/layouts/fairhw.png"
@@ -125,6 +126,7 @@ theme.awesome_icon = theme_assets.awesome_icon(
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
+
 
 return theme
 

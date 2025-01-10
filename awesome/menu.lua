@@ -1,4 +1,5 @@
 local awful = require("awful")
+local hotkeys_popup = require("awful.hotkeys_popup")
 
 -- Menu --
 AwesomeMenu = {
@@ -21,7 +22,7 @@ MenuItems = {
 				{"Impress","libreoffice --impress"},
         		}
 	},
-	{ "FileManager",   filemanager  },
+	{ "FileManager",   "nemo" },
 	{ "Shutdown",   { 
 				{"Shutdown", "shutdown"       },
 				{"Now",      "shutdown now"   },
