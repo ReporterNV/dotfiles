@@ -45,6 +45,35 @@ export PS1='[\[\033[1;33m\]\d \t\[\033[00m\]] \u@\h\n\[\033[1;34m\]\w\[\033[00m\
 
 echo "Hi "$USER
 
+
+un() {
+    local file="$1"
+
+    if [[ -z "$file" ]]; then
+        echo "Usage: uncompress <file>"
+        return 1
+    fi
+
+    if [[ ! -f "$file" ]]; then
+        echo "Error: File '$file' not found."
+        return 1
+    fi
+
+    case "$file" in
+        *.tar.gz|*.tgz)  tar -xvzf "$file" ;;
+        *.tar.xz)        tar -xvJf "$file" ;;
+        *.tar.bz2)       tar -xvjf "$file" ;;
+        *.tar)           tar -xvf "$file" ;;
+        *.zip)           unzip "$file" ;;
+        *.rar)           unrar x "$file" ;;
+        *.7z)            7z x "$file" ;;
+        *) 
+            echo "Error: Unsupported file type."
+            return 1
+        ;;
+    esac
+
+
 shell="$(basename $SHELL)"
 eval "$(fzf --$shell)"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
