@@ -74,6 +74,10 @@ un() {
     esac
 
 
+source /usr/share/bash-completion/completions/pass
+source /usr/share/bash-completion/completions/git
+
+
 shell="$(basename $SHELL)"
 eval "$(fzf --$shell)"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
