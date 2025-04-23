@@ -33,3 +33,12 @@ vim.keymap.set('v', '<C-c>', '"+y', {noremap = true})
 vim.keymap.set('n', '<C-v>', '"+p', {noremap = true})
 vim.keymap.set('v', '<C-v>', '"+p', {noremap = true})
 
+vim.g.copilot_enabled = false;
+
+
+--for folding
+vim.cmd([[
+set viewoptions=folds
+autocmd BufWinLeave * silent! mkview
+autocmd BufWinEnter * silent! loadview
+]])
