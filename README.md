@@ -1,10 +1,12 @@
 
 # Dotfiles
 
-- Distribution    -- ARCH
-- alacrity	  -- terminal
-- wallpaper 	  -- feh-sh-animate
-- scrot 	  -- screenshots
-- firefox 	  -- browser
-- zathura 	  -- pdfViewer
-- libreoffice	  -- office  
+|     |      |
+| --- | --- |
+|  distr   | arch     |
+| wm | awesome |
+| terminal | alacritty |
+| screenshot | scrot |
+| browser | firefox |
+| pdfviewver | zathura |
+| office | libre-office |
