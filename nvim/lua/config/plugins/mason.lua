@@ -1,11 +1,15 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
-    "clangd",         -- C / C++
-    "lua_ls",         -- Lua
-    "bashls",         -- Bash
-    "pyright",        -- Python (лучше pylint + ruff, но pyright — быстро и точно)
-    -- опционально: "ruff_lsp" для линтинга/форматирования Python
+    "clangd",
+    "lua_ls",
+    "bashls",
+    "pyright",
   },
   automatic_installation = true,
+  handlers = {
+    function(_)
+      -- Servers are configured via vim.lsp.config() (Neovim built-in)
+    end,
+  },
 })

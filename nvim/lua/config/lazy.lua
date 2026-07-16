@@ -27,7 +27,7 @@ require("lazy").setup({
 	{ "tandy1229/deus.nvim", lazy = false, priority = 1000 },
 	{ "srcery-colors/srcery-vim", as = "srcery" },
 
-	{ "norcalli/nvim-colorizer.lua", config = function() require("config.plugins.colorizer") end },
+	{ "NvChad/nvim-colorizer.lua", config = function() require("config.plugins.colorizer") end },
 
 	-- Treesitter
 	{
@@ -43,8 +43,10 @@ require("lazy").setup({
 
 	-- LSP stack (mason + lspconfig)
 	{ "williamboman/mason.nvim", config = true },
-	{ "williamboman/mason-lspconfig.nvim", config = function() require("config.plugins.mason") end },
-	{ "neovim/nvim-lspconfig", config = function() require("config.plugins.lsp") end },
+	{ "williamboman/mason-lspconfig.nvim", config = function()
+		require("config.plugins.mason")
+		require("config.plugins.lsp")
+	end },
 
 	-- Completion
 	{ "hrsh7th/nvim-cmp", config = function() require("config.plugins.cmp") end },
@@ -55,9 +57,19 @@ require("lazy").setup({
 	{ "L3MON4D3/LuaSnip" },
 	{ "saadparwaiz1/cmp_luasnip" },
 
+	-- UI enhancements
+	{ "folke/which-key.nvim", event = "VeryLazy", config = function() require("config.plugins.whichkey") end },
+	{ "nvim-lualine/lualine.nvim", event = "VeryLazy", config = function() require("config.plugins.lualine") end },
+	{ "numToStr/Comment.nvim", config = function() require("config.plugins.comment") end },
+
+
 	--{ "github/copilot.vim" },
 
-		checker = {
+	install = {
+		missing = false,
+		colorscheme = false,
+	},
+	checker = {
 		enabled = false,
 	},
 })
